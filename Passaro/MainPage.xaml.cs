@@ -3,12 +3,18 @@
 public partial class MainPage : ContentPage
 {
 
-	const int gravidade = 1;
+	const int gravidade = 4;
 	const int tempoEntreFrames = 25;
 	bool estaMorto = false;
 	double larguraJanela = 0;
 	double alturaJanela = 0;
-	int velocidade = 20;
+	int velocidade = 10;
+	const int aberturaMinima = 50;
+
+	const int forcaPulo = 30;
+	const int maxTempoPulando = 3; //Frames
+	bool EstaPulando = false;
+	int TempoPulando = 0;
 	public MainPage()
 	{
 		InitializeComponent();
@@ -49,6 +55,11 @@ public partial class MainPage : ContentPage
 		{
 			imgcanoterra.TranslationX = 0;
 			imgcanoceu.TranslationX = 0;
+			var alturaMaxima = -100;
+			var alturaMinima = -imgcanoceu.HeightRequest;
+			imgcanoterra.TranslationY = Random.Shared.Next((int)alturaMinima, (int)alturaMaxima);
+			imgcanoceu.TranslationY = imgcanoterra.TranslationY + aberturaMinima + imgcanoceu.HeightRequest;
+			
 		}
 	}
 
@@ -74,9 +85,12 @@ public partial class MainPage : ContentPage
 	{
 		while (!estaMorto)
 		{
+			if (EstaPulando)
+		    AplicaPulo();
+			else
 			AplicaGravidade();
 			GerenciaCanos();
-			if (VerificaColisaoChao())
+			if (VerificaColisao())
 			{
 				estaMorto = true;
 				FrameGameOver.IsVisible = true;
@@ -85,6 +99,7 @@ public partial class MainPage : ContentPage
 
 			await Task.Delay(tempoEntreFrames);
 		}
+		
 	}
 
 
@@ -102,7 +117,24 @@ public partial class MainPage : ContentPage
 
 		
 	}
+	void AplicaPulo()
+	{
+		imgesquilo.TranslationY -= forcaPulo;
+		TempoPulando++;
+		if (TempoPulando >= maxTempoPulando)
+		{
+			EstaPulando = false;
+			TempoPulando = 0;
+		}
 
+	}
+
+		void esquiloClicked(object sender, TappedEventArgs a)
+		{
+			EstaPulando = true;
+		}
+
+		
 }
 
 
