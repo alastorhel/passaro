@@ -4,13 +4,24 @@
              x:Class="Passaro.MainPage"
              Shell.NavBarIsVisible="false">
 
-        <Grid>
-              
+       <Grid>
+
+
+
+
 
               <Image Source="fundoverde.jpg"
                      Aspect="AspectFill"
                      HorizontalOptions="Fill"
                      VerticalOptions="Fill"/>
+
+              <Label x:Name="labelScore"
+                     Text="Canos:"
+                     TextColor="White"
+                     BackgroundColor="#3c7a6e"
+                     FontSize="25"
+                     HorizontalOptions="Start"
+                     VerticalOptions="Start"/>
 
               <Image Source="canoalto.webp"
                      x:Name="imgcanoceu"
@@ -43,6 +54,8 @@
                      HorizontalOptions="Center"
                      VerticalOptions="End"/>
 
+
+
               <Frame
                      IsVisible="true"
                      x:Name="FrameGameOver"
@@ -50,16 +63,36 @@
                      HorizontalOptions="Fill"
                      VerticalOptions="Fill"
                      CornerRadius="0">
+                     <VerticalStackLayout>
 
-                     <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="Oi"/>
-                     </Frame.GestureRecognizers>
-                     <Image Source="tep.png"
-                            HeightRequest="195"
-                            WidthRequest="160"/>
 
+
+
+                            <Label x:Name="comeco"
+                                   TextColor="White"
+                                   Text="Você passou por:"
+                                   HeightRequest="150"
+                                   FontSize="15"
+                                   WidthRequest="70"
+                                   Margin="0,100,0,0"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+
+
+
+                            <Frame.GestureRecognizers>
+                                   <TapGestureRecognizer Tapped="Oi"/>
+                            </Frame.GestureRecognizers>
+
+
+                            <Image Source="tep.png"
+                                   HeightRequest="195"
+                                   WidthRequest="160"/>
+
+
+                     </VerticalStackLayout>
               </Frame>
-               <Grid.GestureRecognizers>
+              <Grid.GestureRecognizers>
                      <TapGestureRecognizer Tapped="esquiloClicked"/>
               </Grid.GestureRecognizers>
 

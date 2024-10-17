@@ -15,6 +15,8 @@ public partial class MainPage : ContentPage
 	const int maxTempoPulando = 3; //Frames
 	bool EstaPulando = false;
 	int TempoPulando = 0;
+
+	int score = 0;
 	public MainPage()
 	{
 		InitializeComponent();
@@ -37,6 +39,7 @@ public partial class MainPage : ContentPage
 	void Inicializar()
 	{
 		imgesquilo.TranslationY = 0;
+		score = 0;
 	}
 
 
@@ -59,6 +62,10 @@ public partial class MainPage : ContentPage
 			var alturaMinima = -imgcanoceu.HeightRequest;
 			imgcanoterra.TranslationY = Random.Shared.Next((int)alturaMinima, (int)alturaMaxima);
 			imgcanoceu.TranslationY = imgcanoterra.TranslationY + aberturaMinima + imgcanoceu.HeightRequest;
+			score ++;
+			labelScore.Text = "Canos :" + score.ToString("D3");
+			comeco.Text = "Você passou por: " + score.ToString("D3") + " canos!!!";
+
 			
 		}
 	}
