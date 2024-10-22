@@ -26,7 +26,7 @@ public partial class MainPage : ContentPage
 	{
 		imgesquilo.TranslationY += gravidade;
 	}
-	
+
 
 	void Oi(object s, TappedEventArgs e)
 	{
@@ -37,8 +37,13 @@ public partial class MainPage : ContentPage
 	}
 
 	void Inicializar()
-	{
+	{    
+
+		imgcanoceu.TranslationX = -larguraJanela;
+		imgcanoterra.TranslationX = -larguraJanela;
+		imgesquilo.TranslationX = 0;
 		imgesquilo.TranslationY = 0;
+		GerenciaCanos();
 		score = 0;
 	}
 
@@ -62,11 +67,11 @@ public partial class MainPage : ContentPage
 			var alturaMinima = -imgcanoceu.HeightRequest;
 			imgcanoterra.TranslationY = Random.Shared.Next((int)alturaMinima, (int)alturaMaxima);
 			imgcanoceu.TranslationY = imgcanoterra.TranslationY + aberturaMinima + imgcanoceu.HeightRequest;
-			score ++;
+			score++;
 			labelScore.Text = "Canos :" + score.ToString("D3");
 			comeco.Text = "Você passou por: " + score.ToString("D3") + " canos!!!";
 
-			
+
 		}
 	}
 
@@ -93,9 +98,9 @@ public partial class MainPage : ContentPage
 		while (!estaMorto)
 		{
 			if (EstaPulando)
-		    AplicaPulo();
+				AplicaPulo();
 			else
-			AplicaGravidade();
+				AplicaGravidade();
 			GerenciaCanos();
 			if (VerificaColisao())
 			{
@@ -106,7 +111,7 @@ public partial class MainPage : ContentPage
 
 			await Task.Delay(tempoEntreFrames);
 		}
-		
+
 	}
 
 
@@ -115,14 +120,16 @@ public partial class MainPage : ContentPage
 		if (!estaMorto)
 		{
 			if (VerificaColisaoTeto() ||
-				VerificaColisaoChao())
+				VerificaColisaoChao() ||
+				VerificaColisaoCanoCima()||
+				VerificaColisaoCanoBaixo())
 			{
 				return true;
 			}
 		}
-			return false;
+		return false;
 
-		
+
 	}
 	void AplicaPulo()
 	{
@@ -136,12 +143,47 @@ public partial class MainPage : ContentPage
 
 	}
 
-		void esquiloClicked(object sender, TappedEventArgs a)
-		{
-			EstaPulando = true;
-		}
+	void esquiloClicked(object sender, TappedEventArgs a)
+	{
+		EstaPulando = true;
+	}
 
-		
+	bool VerificaColisaoCanoCima()
+	{
+		var posHesquilo = (larguraJanela / 2) - (imgesquilo.WidthRequest / 2);
+		var posVesquilo = (alturaJanela / 2) - (imgesquilo.HeightRequest / 2) + imgesquilo.TranslationY;
+		if (posHesquilo >= Math.Abs(imgcanoterra.TranslationX) - imgcanoterra.WidthRequest &&
+			posHesquilo <= Math.Abs(imgcanoterra.TranslationX) + imgcanoterra.WidthRequest &&
+			
+			posVesquilo <= imgcanoterra.HeightRequest + imgcanoterra.TranslationY)
+				{
+			return true;
+
+		}
+				else
+		{
+			return false;
+		}
+	}
+
+	bool VerificaColisaoCanoBaixo()
+	{
+		var posHesquilo = (larguraJanela / 2) - (imgesquilo.WidthRequest / 2);
+		var posVesquilo = (alturaJanela / 2) - (imgesquilo.HeightRequest / 2) + imgesquilo.TranslationY;
+		if (posHesquilo <= Math.Abs(imgcanoceu.TranslationX) - imgcanoceu.WidthRequest &&
+			posHesquilo >= Math.Abs(imgcanoceu.TranslationX) + imgcanoceu.WidthRequest &&
+			
+			posVesquilo >= imgcanoceu.HeightRequest + imgcanoceu.TranslationY)
+				{
+			return true;
+
+		}
+				else
+		{
+			return false;
+		}
+	}
+
 }
 
 

@@ -27,6 +27,7 @@
                      x:Name="imgcanoceu"
                      HeightRequest="620"
                      WidthRequest="30"
+                     
                      Aspect="AspectFit"
                      HorizontalOptions="End"
                      VerticalOptions="End"/>
@@ -34,6 +35,7 @@
               <Image Source="canovirado.jpg"
                      x:Name="imgcanoterra"
                      HeightRequest="620"
+                      
                      WidthRequest="30"
                      Aspect="AspectFit"
                      HorizontalOptions="End"
@@ -43,8 +45,9 @@
                      x:Name="imgesquilo"
                      HeightRequest="50"
                      WidthRequest="70"
-                     Margin="30,0,0,0"
-                     HorizontalOptions="Start"
+                 
+
+                     HorizontalOptions="Center"
                      VerticalOptions="Center"/>
 
               <Image Source="chao.jpg"
