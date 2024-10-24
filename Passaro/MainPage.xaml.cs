@@ -9,7 +9,7 @@ public partial class MainPage : ContentPage
 	double larguraJanela = 0;
 	double alturaJanela = 0;
 	int velocidade = 10;
-	const int aberturaMinima = 50;
+	const int aberturaMinima = 200;
 
 	const int forcaPulo = 30;
 	const int maxTempoPulando = 3; //Frames
@@ -37,10 +37,10 @@ public partial class MainPage : ContentPage
 	}
 
 	void Inicializar()
-	{    
+	{
 
-		imgcanoceu.TranslationX = -larguraJanela;
-		imgcanoterra.TranslationX = -larguraJanela;
+		imgcanoalto.TranslationX = -larguraJanela;
+		imgcanovirado.TranslationX = -larguraJanela;
 		imgesquilo.TranslationX = 0;
 		imgesquilo.TranslationY = 0;
 		GerenciaCanos();
@@ -53,23 +53,31 @@ public partial class MainPage : ContentPage
 		base.OnSizeAllocated(w, h);
 		larguraJanela = w;
 		alturaJanela = h;
+		if (h > 0)
+    {
+      imgcanovirado.HeightRequest  = h - chao.HeightRequest;
+      imgcanoalto.HeightRequest = h - chao.HeightRequest;
+    
+  }
 	}
 
 	void GerenciaCanos()
 	{
-		imgcanoceu.TranslationX -= velocidade;
-		imgcanoterra.TranslationX -= velocidade;
-		if (imgcanoterra.TranslationX < -larguraJanela)
+		imgcanoalto.TranslationX -= velocidade;
+		imgcanovirado.TranslationX -= velocidade;
+		if (imgcanovirado.TranslationX < -larguraJanela)
 		{
-			imgcanoterra.TranslationX = 0;
-			imgcanoceu.TranslationX = 0;
+			imgcanovirado.TranslationX = 0;
+			imgcanoalto.TranslationX = 0;
 			var alturaMaxima = -100;
-			var alturaMinima = -imgcanoceu.HeightRequest;
-			imgcanoterra.TranslationY = Random.Shared.Next((int)alturaMinima, (int)alturaMaxima);
-			imgcanoceu.TranslationY = imgcanoterra.TranslationY + aberturaMinima + imgcanoceu.HeightRequest;
+			var alturaMinima = -imgcanoalto.HeightRequest;
+			imgcanovirado.TranslationY = Random.Shared.Next((int)alturaMinima, (int)alturaMaxima);
+			imgcanoalto.TranslationY = imgcanovirado.TranslationY + aberturaMinima + imgcanoalto.HeightRequest;
 			score++;
 			labelScore.Text = "Canos :" + score.ToString("D3");
 			comeco.Text = "Você passou por: " + score.ToString("D3") + " canos!!!";
+			if (score % 4 == 0)
+        velocidade++;
 
 
 		}
@@ -117,19 +125,15 @@ public partial class MainPage : ContentPage
 
 	bool VerificaColisao()
 	{
-		if (!estaMorto)
+
 		{
-			if (VerificaColisaoTeto() ||
+			return VerificaColisaoTeto() ||
 				VerificaColisaoChao() ||
-				VerificaColisaoCanoCima()||
-				VerificaColisaoCanoBaixo())
-			{
-				return true;
-			}
+				VerificaColisaoCanoCima() ||
+				VerificaColisaoCanoAlto();
+
+
 		}
-		return false;
-
-
 	}
 	void AplicaPulo()
 	{
@@ -152,33 +156,34 @@ public partial class MainPage : ContentPage
 	{
 		var posHesquilo = (larguraJanela / 2) - (imgesquilo.WidthRequest / 2);
 		var posVesquilo = (alturaJanela / 2) - (imgesquilo.HeightRequest / 2) + imgesquilo.TranslationY;
-		if (posHesquilo >= Math.Abs(imgcanoterra.TranslationX) - imgcanoterra.WidthRequest &&
-			posHesquilo <= Math.Abs(imgcanoterra.TranslationX) + imgcanoterra.WidthRequest &&
-			
-			posVesquilo <= imgcanoterra.HeightRequest + imgcanoterra.TranslationY)
-				{
+		if (posHesquilo >= Math.Abs(imgcanoalto.TranslationX) - imgcanoalto.WidthRequest &&
+			posHesquilo <= Math.Abs(imgcanoalto.TranslationX) + imgcanoalto.WidthRequest &&
+
+			posVesquilo <= imgcanoalto.HeightRequest + imgcanoalto.TranslationY)
+		{
 			return true;
 
 		}
-				else
+		else
 		{
 			return false;
 		}
 	}
 
-	bool VerificaColisaoCanoBaixo()
+	
+
+	bool VerificaColisaoCanoAlto()
 	{
 		var posHesquilo = (larguraJanela / 2) - (imgesquilo.WidthRequest / 2);
-		var posVesquilo = (alturaJanela / 2) - (imgesquilo.HeightRequest / 2) + imgesquilo.TranslationY;
-		if (posHesquilo <= Math.Abs(imgcanoceu.TranslationX) - imgcanoceu.WidthRequest &&
-			posHesquilo >= Math.Abs(imgcanoceu.TranslationX) + imgcanoceu.WidthRequest &&
-			
-			posVesquilo >= imgcanoceu.HeightRequest + imgcanoceu.TranslationY)
-				{
+		var posVesquilo = (alturaJanela / 2) + (imgesquilo.HeightRequest / 2) + imgesquilo.TranslationY;
+		var yMaxCano = imgcanovirado.HeightRequest + imgcanovirado.TranslationY + aberturaMinima;
+		if (posHesquilo >= Math.Abs(imgcanovirado.TranslationX) - imgcanovirado.WidthRequest &&
+		   posHesquilo <= Math.Abs(imgcanovirado.TranslationX) + imgcanovirado.WidthRequest &&
+		   posHesquilo >= yMaxCano)
+		{
 			return true;
-
 		}
-				else
+		else
 		{
 			return false;
 		}

@@ -6,10 +6,6 @@
 
        <Grid>
 
-
-
-
-
               <Image Source="fundoverde.jpg"
                      Aspect="AspectFill"
                      HorizontalOptions="Fill"
@@ -24,27 +20,26 @@
                      VerticalOptions="Start"/>
 
               <Image Source="canoalto.webp"
-                     x:Name="imgcanoceu"
+                     x:Name="imgcanoalto"
                      HeightRequest="620"
                      WidthRequest="30"
-                     
-                     Aspect="AspectFit"
+                     Aspect="Fill"
                      HorizontalOptions="End"
-                     VerticalOptions="End"/>
+                     VerticalOptions="Start"/>
 
               <Image Source="canovirado.jpg"
-                     x:Name="imgcanoterra"
-                     HeightRequest="620"
-                      
+                     x:Name="imgcanovirado"
+                     HeightRequest="600"
                      WidthRequest="30"
-                     Aspect="AspectFit"
+                     Aspect="Fill"
                      HorizontalOptions="End"
                      VerticalOptions="Start"/>
 
               <Image Source="esquilo.png"
                      x:Name="imgesquilo"
+                     BackgroundColor="Blue"
                      HeightRequest="50"
-                     WidthRequest="70"
+                     WidthRequest="50"
                  
 
                      HorizontalOptions="Center"
