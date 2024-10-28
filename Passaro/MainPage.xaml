@@ -21,16 +21,14 @@
 
               <Image Source="canoalto.webp"
                      x:Name="imgcanoalto"
-                     HeightRequest="620"
-                     WidthRequest="30"
                      Aspect="Fill"
+                     BackgroundColor="Black"
                      HorizontalOptions="End"
-                     VerticalOptions="Start"/>
+                     VerticalOptions="End"/>
 
               <Image Source="canovirado.jpg"
                      x:Name="imgcanovirado"
-                     HeightRequest="600"
-                     WidthRequest="30"
+                       BackgroundColor="Black"
                      Aspect="Fill"
                      HorizontalOptions="End"
                      VerticalOptions="Start"/>

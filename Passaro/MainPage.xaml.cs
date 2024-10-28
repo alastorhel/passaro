@@ -57,6 +57,8 @@ public partial class MainPage : ContentPage
     {
       imgcanovirado.HeightRequest  = h - chao.HeightRequest;
       imgcanoalto.HeightRequest = h - chao.HeightRequest;
+	  imgcanovirado.WidthRequest = 50 * 715 / alturaJanela;
+	  imgcanoalto.WidthRequest = 50 * 715 / alturaJanela;
     
   }
 	}
