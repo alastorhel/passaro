@@ -4,7 +4,7 @@ public partial class MainPage : ContentPage
 {
 
 	const int gravidade = 4;
-	const int tempoEntreFrames = 25;
+	const int tempoEntreFrames = 20;
 	bool estaMorto = false;
 	double larguraJanela = 0;
 	double alturaJanela = 0;
@@ -27,8 +27,15 @@ public partial class MainPage : ContentPage
 		imgesquilo.TranslationY += gravidade;
 	}
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+		SoundHelper.Play("fundo.wav", true);
 
-	void Oi(object s, TappedEventArgs e)
+    }
+
+
+    void Oi(object s, TappedEventArgs e)
 	{
 		FrameGameOver.IsVisible = false;
 		estaMorto = false;
@@ -72,10 +79,12 @@ public partial class MainPage : ContentPage
 			imgcanovirado.TranslationX = 0;
 			imgcanoalto.TranslationX = 0;
 			var alturaMaxima = -100;
+
 			var alturaMinima = -imgcanoalto.HeightRequest;
 			imgcanovirado.TranslationY = Random.Shared.Next((int)alturaMinima, (int)alturaMaxima);
 			imgcanoalto.TranslationY = imgcanovirado.TranslationY + aberturaMinima + imgcanoalto.HeightRequest;
 			score++;
+			SoundHelper.Play("ponto.wav");
 			labelScore.Text = "Canos :" + score.ToString("D3");
 			comeco.Text = "Você passou por: " + score.ToString("D3") + " canos!!!";
 			if (score % 4 == 0)
@@ -115,6 +124,7 @@ public partial class MainPage : ContentPage
 			if (VerificaColisao())
 			{
 				estaMorto = true;
+				 SoundHelper.Play("morte.wav");
 				FrameGameOver.IsVisible = true;
 				break;
 			}
@@ -158,10 +168,9 @@ public partial class MainPage : ContentPage
 	{
 		var posHesquilo = (larguraJanela / 2) - (imgesquilo.WidthRequest / 2);
 		var posVesquilo = (alturaJanela / 2) - (imgesquilo.HeightRequest / 2) + imgesquilo.TranslationY;
-		if (posHesquilo >= Math.Abs(imgcanoalto.TranslationX) - imgcanoalto.WidthRequest &&
-			posHesquilo <= Math.Abs(imgcanoalto.TranslationX) + imgcanoalto.WidthRequest &&
-
-			posVesquilo <= imgcanoalto.HeightRequest + imgcanoalto.TranslationY)
+		if    (posHesquilo >= Math.Abs(imgcanovirado.TranslationX) - imgcanovirado.WidthRequest &&
+			posHesquilo <= Math.Abs(imgcanovirado.TranslationX) + imgcanovirado.WidthRequest &&
+			posVesquilo <= imgcanovirado.HeightRequest + imgcanovirado.TranslationY)
 		{
 			return true;
 
@@ -178,9 +187,9 @@ public partial class MainPage : ContentPage
 	{
 		var posHesquilo = (larguraJanela / 2) - (imgesquilo.WidthRequest / 2);
 		var posVesquilo = (alturaJanela / 2) + (imgesquilo.HeightRequest / 2) + imgesquilo.TranslationY;
-		var yMaxCano = imgcanovirado.HeightRequest + imgcanovirado.TranslationY + aberturaMinima;
-		if (posHesquilo >= Math.Abs(imgcanovirado.TranslationX) - imgcanovirado.WidthRequest &&
-		   posHesquilo <= Math.Abs(imgcanovirado.TranslationX) + imgcanovirado.WidthRequest &&
+		var yMaxCano = imgcanoalto.HeightRequest + imgcanoalto.TranslationY + aberturaMinima;
+		if (posHesquilo >= Math.Abs(imgcanoalto.TranslationX) - imgcanoalto.WidthRequest &&
+		   posHesquilo <= Math.Abs(imgcanoalto.TranslationX) + imgcanoalto.WidthRequest &&
 		   posHesquilo >= yMaxCano)
 		{
 			return true;

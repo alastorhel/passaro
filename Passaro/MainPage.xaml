@@ -59,7 +59,13 @@
                      HorizontalOptions="Fill"
                      VerticalOptions="Fill"
                      CornerRadius="0">
+
+
+                      <Frame.GestureRecognizers>
+                                   <TapGestureRecognizer Tapped="Oi"/>
+                            </Frame.GestureRecognizers>
                      <VerticalStackLayout>
+
 
 
 
@@ -74,11 +80,6 @@
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"/>
 
-
-
-                            <Frame.GestureRecognizers>
-                                   <TapGestureRecognizer Tapped="Oi"/>
-                            </Frame.GestureRecognizers>
 
 
                             <Image Source="tep.png"
