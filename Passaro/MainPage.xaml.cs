@@ -8,7 +8,7 @@ public partial class MainPage : ContentPage
 	bool estaMorto = false;
 	double larguraJanela = 0;
 	double alturaJanela = 0;
-	int velocidade = 10;
+	int velocidade = 6;
 	const int aberturaMinima = 200;
 
 	const int forcaPulo = 30;
@@ -166,11 +166,12 @@ public partial class MainPage : ContentPage
 
 	bool VerificaColisaoCanoCima()
 	{
-		var posHesquilo = (larguraJanela / 2) - (imgesquilo.WidthRequest / 2);
+		var posHesquilo = (larguraJanela - 50) - (imgesquilo.WidthRequest / 2);
 		var posVesquilo = (alturaJanela / 2) - (imgesquilo.HeightRequest / 2) + imgesquilo.TranslationY;
-		if    (posHesquilo >= Math.Abs(imgcanovirado.TranslationX) - imgcanovirado.WidthRequest &&
-			posHesquilo <= Math.Abs(imgcanovirado.TranslationX) + imgcanovirado.WidthRequest &&
-			posVesquilo <= imgcanovirado.HeightRequest + imgcanovirado.TranslationY)
+		if    (posHesquilo >= Math.Abs(imgcanoalto.TranslationX) - imgcanoalto.WidthRequest &&
+			posHesquilo <= Math.Abs(imgcanoalto.TranslationX) + imgcanoalto.WidthRequest &&
+			posVesquilo <= imgcanoalto.HeightRequest + imgcanoalto.TranslationY
+			)
 		{
 			return true;
 
@@ -185,11 +186,11 @@ public partial class MainPage : ContentPage
 
 	bool VerificaColisaoCanoAlto()
 	{
-		var posHesquilo = (larguraJanela / 2) - (imgesquilo.WidthRequest / 2);
+		var posHesquilo = (larguraJanela - 50) - (imgesquilo.WidthRequest / 2);
 		var posVesquilo = (alturaJanela / 2) + (imgesquilo.HeightRequest / 2) + imgesquilo.TranslationY;
-		var yMaxCano = imgcanoalto.HeightRequest + imgcanoalto.TranslationY + aberturaMinima;
-		if (posHesquilo >= Math.Abs(imgcanoalto.TranslationX) - imgcanoalto.WidthRequest &&
-		   posHesquilo <= Math.Abs(imgcanoalto.TranslationX) + imgcanoalto.WidthRequest &&
+		var yMaxCano = imgcanovirado.HeightRequest + imgcanovirado.TranslationY + aberturaMinima;
+		if (posHesquilo >= Math.Abs(imgcanovirado.TranslationX) - imgcanovirado.WidthRequest &&
+		   posHesquilo <= Math.Abs(imgcanovirado.TranslationX) + imgcanovirado.WidthRequest &&
 		   posHesquilo >= yMaxCano)
 		{
 			return true;

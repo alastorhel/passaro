@@ -24,7 +24,7 @@
                      Aspect="Fill"
                      BackgroundColor="Black"
                      HorizontalOptions="End"
-                     VerticalOptions="End"/>
+                     VerticalOptions="Start"/>
 
               <Image Source="canovirado.jpg"
                      x:Name="imgcanovirado"
@@ -37,10 +37,8 @@
                      x:Name="imgesquilo"
                      BackgroundColor="Blue"
                      HeightRequest="50"
-                     WidthRequest="50"
-                 
-
-                     HorizontalOptions="Center"
+                     
+                     HorizontalOptions="Start"
                      VerticalOptions="Center"/>
 
               <Image Source="chao.jpg"
