@@ -19,25 +19,26 @@
                      HorizontalOptions="Start"
                      VerticalOptions="Start"/>
 
-              <Image Source="canoalto.webp"
-                     x:Name="imgcanoalto"
-                     Aspect="Fill"
-                     BackgroundColor="Black"
-                     HorizontalOptions="End"
-                     VerticalOptions="Start"/>
-
               <Image Source="canovirado.jpg"
-                     x:Name="imgcanovirado"
-                       BackgroundColor="Black"
+                     x:Name="imgCanoCima"
                      Aspect="Fill"
                      HorizontalOptions="End"
-                     VerticalOptions="Start"/>
+                     VerticalOptions="Start"
+                     HeightRequest="650"
+                     WidthRequest="100"/>
+
+              <Image Source="canoalto.webp"
+                     x:Name="imgCanoBaixo"
+                     Aspect="Fill"
+                     HorizontalOptions="End"
+                     VerticalOptions="Start"
+                     HeightRequest="650"
+                     WidthRequest="100"/>
 
               <Image Source="esquilo.png"
                      x:Name="imgesquilo"
                      BackgroundColor="Blue"
                      HeightRequest="50"
-                     
                      HorizontalOptions="Start"
                      VerticalOptions="Center"/>
 
@@ -59,9 +60,9 @@
                      CornerRadius="0">
 
 
-                      <Frame.GestureRecognizers>
-                                   <TapGestureRecognizer Tapped="Oi"/>
-                            </Frame.GestureRecognizers>
+                     <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Oi"/>
+                     </Frame.GestureRecognizers>
                      <VerticalStackLayout>
 
 

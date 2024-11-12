@@ -3,13 +3,13 @@
 public partial class MainPage : ContentPage
 {
 
-	const int gravidade = 4;
-	const int tempoEntreFrames = 20;
+	const int gravidade = 6;
+	const int tempoEntreFrames = 25;
 	bool estaMorto = false;
 	double larguraJanela = 0;
 	double alturaJanela = 0;
 	int velocidade = 6;
-	const int aberturaMinima = 200;
+	const int aberturaMinima = 250;
 
 	const int forcaPulo = 30;
 	const int maxTempoPulando = 3; //Frames
@@ -27,15 +27,15 @@ public partial class MainPage : ContentPage
 		imgesquilo.TranslationY += gravidade;
 	}
 
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
 		SoundHelper.Play("fundo.wav", true);
 
-    }
+	}
 
 
-    void Oi(object s, TappedEventArgs e)
+	void Oi(object s, TappedEventArgs e)
 	{
 		FrameGameOver.IsVisible = false;
 		estaMorto = false;
@@ -46,8 +46,8 @@ public partial class MainPage : ContentPage
 	void Inicializar()
 	{
 
-		imgcanoalto.TranslationX = -larguraJanela;
-		imgcanovirado.TranslationX = -larguraJanela;
+		imgCanoBaixo.TranslationX = -larguraJanela;
+		imgCanoCima.TranslationX = -larguraJanela;
 		imgesquilo.TranslationX = 0;
 		imgesquilo.TranslationY = 0;
 		GerenciaCanos();
@@ -61,34 +61,33 @@ public partial class MainPage : ContentPage
 		larguraJanela = w;
 		alturaJanela = h;
 		if (h > 0)
-    {
-      imgcanovirado.HeightRequest  = h - chao.HeightRequest;
-      imgcanoalto.HeightRequest = h - chao.HeightRequest;
-	  imgcanovirado.WidthRequest = 50 * 715 / alturaJanela;
-	  imgcanoalto.WidthRequest = 50 * 715 / alturaJanela;
-    
-  }
+		{
+			imgCanoCima.HeightRequest = h - chao.HeightRequest;
+			imgCanoBaixo.HeightRequest = h - chao.HeightRequest;
+			imgCanoCima.WidthRequest = 50 * 715 / alturaJanela;
+			imgCanoBaixo.WidthRequest = 50 * 715 / alturaJanela;
+
+		}
 	}
 
 	void GerenciaCanos()
 	{
-		imgcanoalto.TranslationX -= velocidade;
-		imgcanovirado.TranslationX -= velocidade;
-		if (imgcanovirado.TranslationX < -larguraJanela)
+		imgCanoBaixo.TranslationX -= velocidade;
+		imgCanoCima.TranslationX -= velocidade;
+		if (imgCanoCima.TranslationX < -larguraJanela)
 		{
-			imgcanovirado.TranslationX = 0;
-			imgcanoalto.TranslationX = 0;
-			var alturaMaxima = -100;
-
-			var alturaMinima = -imgcanoalto.HeightRequest;
-			imgcanovirado.TranslationY = Random.Shared.Next((int)alturaMinima, (int)alturaMaxima);
-			imgcanoalto.TranslationY = imgcanovirado.TranslationY + aberturaMinima + imgcanoalto.HeightRequest;
+			imgCanoCima.TranslationX = 0;
+			imgCanoBaixo.TranslationX = 0;
+			var alturaMaxima = -(imgCanoBaixo.HeightRequest * 0.2);
+			var alturaMinima = -(imgCanoBaixo.HeightRequest * 0.8);
+			imgCanoCima.TranslationY = Random.Shared.Next((int)alturaMinima, (int)alturaMaxima);
+			imgCanoBaixo.TranslationY = imgCanoCima.TranslationY + aberturaMinima + imgCanoBaixo.HeightRequest;
 			score++;
 			SoundHelper.Play("ponto.wav");
 			labelScore.Text = "Canos :" + score.ToString("D3");
 			comeco.Text = "Você passou por: " + score.ToString("D3") + " canos!!!";
 			if (score % 4 == 0)
-        velocidade++;
+				velocidade++;
 
 
 		}
@@ -124,7 +123,7 @@ public partial class MainPage : ContentPage
 			if (VerificaColisao())
 			{
 				estaMorto = true;
-				 SoundHelper.Play("morte.wav");
+				SoundHelper.Play("morte.wav");
 				FrameGameOver.IsVisible = true;
 				break;
 			}
@@ -137,15 +136,10 @@ public partial class MainPage : ContentPage
 
 	bool VerificaColisao()
 	{
-
-		{
-			return VerificaColisaoTeto() ||
-				VerificaColisaoChao() ||
-				VerificaColisaoCanoCima() ||
-				VerificaColisaoCanoAlto();
-
-
-		}
+		return VerificaColisaoTeto() ||
+			VerificaColisaoChao() ||
+			VerificaColisaoCanoCima() ||
+			VerificaColisaoCanoBaixo();
 	}
 	void AplicaPulo()
 	{
@@ -168,9 +162,9 @@ public partial class MainPage : ContentPage
 	{
 		var posHesquilo = (larguraJanela - 50) - (imgesquilo.WidthRequest / 2);
 		var posVesquilo = (alturaJanela / 2) - (imgesquilo.HeightRequest / 2) + imgesquilo.TranslationY;
-		if    (posHesquilo >= Math.Abs(imgcanoalto.TranslationX) - imgcanoalto.WidthRequest &&
-			posHesquilo <= Math.Abs(imgcanoalto.TranslationX) + imgcanoalto.WidthRequest &&
-			posVesquilo <= imgcanoalto.HeightRequest + imgcanoalto.TranslationY
+		if (posHesquilo >= Math.Abs(imgCanoCima.TranslationX) - imgCanoCima.WidthRequest &&
+			posHesquilo <= Math.Abs(imgCanoCima.TranslationX) + imgCanoCima.WidthRequest &&
+			posVesquilo <= imgCanoCima.HeightRequest + imgCanoCima.TranslationY
 			)
 		{
 			return true;
@@ -182,16 +176,16 @@ public partial class MainPage : ContentPage
 		}
 	}
 
-	
 
-	bool VerificaColisaoCanoAlto()
+
+	bool VerificaColisaoCanoBaixo()
 	{
 		var posHesquilo = (larguraJanela - 50) - (imgesquilo.WidthRequest / 2);
 		var posVesquilo = (alturaJanela / 2) + (imgesquilo.HeightRequest / 2) + imgesquilo.TranslationY;
-		var yMaxCano = imgcanovirado.HeightRequest + imgcanovirado.TranslationY + aberturaMinima;
-		if (posHesquilo >= Math.Abs(imgcanovirado.TranslationX) - imgcanovirado.WidthRequest &&
-		   posHesquilo <= Math.Abs(imgcanovirado.TranslationX) + imgcanovirado.WidthRequest &&
-		   posHesquilo >= yMaxCano)
+		var yMaxCano = imgCanoCima.HeightRequest + imgCanoCima.TranslationY + aberturaMinima;
+		if (posHesquilo >= Math.Abs(imgCanoBaixo.TranslationX) - imgCanoBaixo.WidthRequest &&
+		   posHesquilo <= Math.Abs(imgCanoBaixo.TranslationX) + imgCanoBaixo.WidthRequest &&
+		   posVesquilo >= yMaxCano)
 		{
 			return true;
 		}
